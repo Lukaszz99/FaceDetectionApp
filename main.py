@@ -25,7 +25,8 @@ def main():
     # camName should be unique
     # you should choose one of existing location (in custom_functions/Access/Locations.py)
     WebCam1_Lab1 = CameraAndFaceRecognizerCarrier.CameraAndFaceRecognizerCarrier(
-        camName='WebCam1', location='Lab1', encodings=data, src=0, detect_method=args['detect_method']).start_carrier()
+        camName='WebCam1', location='Lab1', encodings=data,
+        src=0, detect_method=args['detect_method'], scale=0.2).start_carrier()
 
 
 if __name__ == '__main__':
