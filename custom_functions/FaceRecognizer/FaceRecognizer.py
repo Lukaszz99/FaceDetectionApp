@@ -1,3 +1,7 @@
+"""
+Author: Łukasz Sawicki
+Mail: l.saw99@outlook.com
+"""
 import cv2 as cv
 import time
 from threading import Thread
@@ -7,7 +11,7 @@ from custom_functions.Access import AccessLevel
 
 
 class FaceRecognizer:
-    def __init__(self,name, encodings=None, related_video_stream=None, detect_method='cnn'):
+    def __init__(self, name, encodings=None, related_video_stream=None, detect_method='cnn'):
         self.name = name
         self.encodings = encodings
         self.related_video_stream = related_video_stream
@@ -30,13 +34,20 @@ class FaceRecognizer:
                     return
                 frame = self.related_video_stream.read()
 
+                # smaller (x2) frame to recognize faces faster
+                # while working on GPU or good performance CPU
+                # don't need to make frame smaller
+                # smaller frame lower accuracy of fecognition,
+                # but increase FPS
+                small_frame = cv.resize(frame, (0, 0), fx=0.5, fy=0.5)
+
                 # BGR to RGB, because of face_recognition library
-                rgb_frame = cv.cvtColor(frame, cv.COLOR_BGR2RGB)
+                rgb_small_frame = cv.cvtColor(small_frame, cv.COLOR_BGR2RGB)
 
                 # detect faceROI
-                ROI = face_recognition.face_locations(rgb_frame,
+                ROI = face_recognition.face_locations(rgb_small_frame,
                                                       model=self.detect_method)
-                encodings = face_recognition.face_encodings(rgb_frame, ROI)
+                encodings = face_recognition.face_encodings(rgb_small_frame, ROI)
                 names = []
 
                 for encoding in encodings:
@@ -77,7 +88,11 @@ class FaceRecognizer:
     def _draw_rectangles(self, frame, ROI, names, access):
         try:
             for ((top, right, bottom, left), name) in zip(ROI, names):
-
+                # resize frame to show normal size
+                top *= 2
+                right *= 2
+                bottom *= 2
+                left *= 2
                 if name == 'Unknown':
                     drawing.rectagne_unknow(frame, top, right, bottom, left)
 
