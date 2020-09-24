@@ -48,10 +48,10 @@ class FaceRecognizer:
 
             # check access of person in given location
             access = self.access_level.get_access(
-                names=names, location=self.related_video_stream.location)
+                names=names.copy(), location=self.related_video_stream.location)
 
             # draw rectangle over the face on frame depends on access
-            self._draw_rectangles(frame, ROI, names, access)
+            self._draw_rectangles(frame, ROI, names.copy(), access)
 
             # put FPS on frame
             cv.putText(frame, 'FPS:' + str(self.frame_counter.get_FPS()),
@@ -59,7 +59,7 @@ class FaceRecognizer:
             # show frame on screen
             cv.imshow(self.related_video_stream.name, frame)
 
-            self.access_after_time.get_persons_from_frame(names, access, frame)
+            self.access_after_time.get_persons_from_frame(names.copy(), access, frame)
             self.access_after_time.log_access(self.related_video_stream)
 
             # press 'q' to close program

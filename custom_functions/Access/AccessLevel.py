@@ -26,7 +26,7 @@ class AccessLevel:
 
     def get_access(self, names, location):
         self.names = names
-        if not names:
+        if not self.names:
             return False
         else:
             if location not in self.locations:
@@ -34,9 +34,9 @@ class AccessLevel:
                       .format(location, self.locations))
                 return False
             else:
-                if 'Unknown' in names:
-                    names.remove('Unknown')
-                access = [(name, self.access_frame.loc[name][location]) for name in names]
+                if 'Unknown' in self.names:
+                    self.names.remove('Unknown')
+                access = [(name, self.access_frame.loc[name][location]) for name in self.names]
                 return list(access)
 
     def who_on_video(self, video_stream):

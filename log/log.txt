@@ -1,0 +1,5 @@
+2020-09-24_21_00_53: WebCam1 (ID:1832787590448) in Lab1, 1 person with access granted! ['Lukasz']
+2020-09-24_21_00_56: WebCam1 (ID:1832787590448) in Lab1, 1 person with access granted! ['Lukasz']
+2020-09-24_21_00_58: WebCam1 (ID:1832787590448) in Lab1, 1 person with access granted! ['Lukasz']
+2020-09-24_21_01_17: WebCam1 (ID:1367890345328) in Lab1, 1 person with access granted! ['Lukasz']
+2020-09-24_21_01_19: WebCam1 (ID:1367890345328) in Lab1, 1 person with access granted! ['Lukasz']
