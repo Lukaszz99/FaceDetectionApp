@@ -8,6 +8,7 @@ from threading import Thread
 import face_recognition
 from custom_functions.Drawing import drawing
 from custom_functions.Access import AccessLevel
+from custom_functions.VideoStream import FrameCounter
 
 
 class FaceRecognizer:
@@ -19,6 +20,7 @@ class FaceRecognizer:
         self.access_level = AccessLevel.AccessLevel()
         self.access_level.set_custom_accesses()
         self.stopped = False
+        self.frame_counter = FrameCounter.FrameCounter()
 
     def start(self):
         # 2 sec for hardware to prepare cameras
@@ -32,28 +34,40 @@ class FaceRecognizer:
             while True:
                 if self.stopped:
                     return
+
+                # read next frame from vide stream if program is not stopped
                 frame = self.related_video_stream.read()
+
+                # functions for calculating FPS in video stream
+                self.frame_counter.frame_readed()
+                self.frame_counter.calculate_FPS()
 
                 # smaller (x2) frame to recognize faces faster
                 # while working on GPU or good performance CPU
                 # don't need to make frame smaller
-                # smaller frame lower accuracy of fecognition,
+                # smaller frame lower accuracy of recognition,
                 # but increase FPS
                 small_frame = cv.resize(frame, (0, 0), fx=0.5, fy=0.5)
 
                 # BGR to RGB, because of face_recognition library
                 rgb_small_frame = cv.cvtColor(small_frame, cv.COLOR_BGR2RGB)
 
-                # detect faceROI
+                # detect face ROI on frame
                 ROI = face_recognition.face_locations(rgb_small_frame,
                                                       model=self.detect_method)
+
+                # make 128-dimensional vector from every face detected on frame
+                # to compare with known faces
                 encodings = face_recognition.face_encodings(rgb_small_frame, ROI)
+
+                # list for keeping recognized names
                 names = []
 
+                # iterate over all encoded faces in frame and find persons's name of recognized faces
                 for encoding in encodings:
                     matches = face_recognition.compare_faces(self.encodings['encodings'], encoding)
 
-                    # deafault if no face is recognize
+                    # deafault if no face is recognized
                     name = 'Unknown'
 
                     if True in matches:
@@ -64,6 +78,7 @@ class FaceRecognizer:
                             name = self.encodings['names'][i]
                             counts[name] = counts.get(name, 0) + 1
 
+                        # name is choose by voting
                         name = max(counts, key=counts.get)
 
                     names.append(name)
@@ -71,10 +86,10 @@ class FaceRecognizer:
                 # check access of person in given location
                 access = self.access_level.get_access(
                     names=names, location=self.related_video_stream.location)
-                print(self.access_level.who_on_video(self.related_video_stream))
 
-                # draw rectangle depends on access
+                # draw rectangle over the face on frame depends on access
                 self._draw_rectangles(frame, ROI, names, access)
+
 
                 # show frame on screen
                 cv.imshow(self.related_video_stream.name, frame)
