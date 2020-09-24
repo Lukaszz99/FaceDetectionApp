@@ -9,6 +9,7 @@ import face_recognition
 from custom_functions.Drawing import drawing
 from custom_functions.Access import AccessLevel
 from custom_functions.VideoStream import FrameCounter
+from custom_functions.Access import AccesAfterTime
 
 
 class FaceRecognizer:
@@ -32,6 +33,7 @@ class FaceRecognizer:
         self.access_level = AccessLevel.AccessLevel()
         self.access_level.set_custom_accesses()
         self.frame_counter = FrameCounter.FrameCounter()
+        self.access_after_time = AccesAfterTime.AccessAfterTime()
 
     def start(self):
         # 2 sec for hardware to prepare cameras
@@ -51,11 +53,14 @@ class FaceRecognizer:
             # draw rectangle over the face on frame depends on access
             self._draw_rectangles(frame, ROI, names, access)
 
-            # show FPS on frame
+            # put FPS on frame
             cv.putText(frame, 'FPS:' + str(self.frame_counter.get_FPS()),
                        (1, 18), cv.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 0))
             # show frame on screen
             cv.imshow(self.related_video_stream.name, frame)
+
+            self.access_after_time.get_persons_from_frame(names, access, frame)
+            self.access_after_time.log_access(self.related_video_stream)
 
             # press 'q' to close program
             self._check_for_program_close()
@@ -69,7 +74,7 @@ class FaceRecognizer:
             frame = self.related_video_stream.read()
 
             # functions for calculating FPS in video stream
-            self.frame_counter.frame_readed()
+            self.frame_counter.frame_read()
             self.frame_counter.calculate_FPS()
 
             small_frame = cv.resize(frame, (0, 0), fx=self.scale, fy=self.scale)
@@ -124,14 +129,12 @@ class FaceRecognizer:
                 right *= rescale
                 bottom *= rescale
                 left *= rescale
-                if name == 'Unknown':
+                if name == "Unknown":
                     drawing.rectagne_unknow(frame, top, right, bottom, left)
-
                 else:
                     for i in range(len(access)):
                         # [0] is to get first element from one-element list
                         name_idx = [x for x, y in enumerate(access) if y[0] == name][0]
-
                         if access[name_idx][1]:
                             drawing.rectangle_with_access(frame, name, top, right, bottom, left)
                         else:
