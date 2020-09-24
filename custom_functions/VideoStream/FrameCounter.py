@@ -29,4 +29,4 @@ class FrameCounter:
             self.start_time = time.time()
 
     def get_FPS(self):
-        return self.FPS
+        return float("{:.2f}".format(self.FPS))

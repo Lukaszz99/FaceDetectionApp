@@ -7,6 +7,7 @@ class AccessLevel:
     def __init__(self):
         self.workers = Workers().get_workers()
         self.locations = Locations().get_locations()
+        self.names = []
         # set all accesses to False by default
         self.access = {key: [False for _ in range(len(self.workers))] for key in self.locations}
         self.access_frame = pd.DataFrame(self.access, index=self.workers)
@@ -39,11 +40,13 @@ class AccessLevel:
                 return list(access)
 
     def who_on_video(self, video_stream):
-        return "{} (ID:{}) in {}. Found {} person: {}.". format(
-            video_stream.name, id(video_stream), video_stream.location, len(self.names),
-            self.names)
+        # return camera name, unique id of cam object, location of camera, number of persons on frame and their names
+        return video_stream.name, id(video_stream), video_stream.location, len(self.names), self.names
 
     def set_custom_accesses(self):
+        # this function is only for checking program
+        # in final version access should be given by admin
+        # or read from database
         self.add_access_everywhere_by_name('Filip')
         self.add_access_everywhere_by_name('Lukasz')
         self.add_access_in_location_by_name('Pawel', ['Main_gate', 'Lab2'])

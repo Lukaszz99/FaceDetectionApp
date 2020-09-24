@@ -51,6 +51,9 @@ class FaceRecognizer:
             # draw rectangle over the face on frame depends on access
             self._draw_rectangles(frame, ROI, names, access)
 
+            # show FPS on frame
+            cv.putText(frame, 'FPS:' + str(self.frame_counter.get_FPS()),
+                       (1, 18), cv.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 0))
             # show frame on screen
             cv.imshow(self.related_video_stream.name, frame)
 
