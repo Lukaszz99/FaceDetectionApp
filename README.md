@@ -17,7 +17,11 @@ Additional libraries:
 ### Step by step installation
 #### Installation for Linux, MacOS and Windows
 1. Install Python by following the [instructions](https://www.python.org/downloads/). Downoland the newest version\
-After installation you can check you Python version, by typing ```python --version``` in command line
+After installation you can check you Python version, by typing 
+```
+python --version
+```
+ in command line
 2. Next, install pip. Type ```curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py``` in command line. If you have pip already installed, upgrade it by typing ```python -m pip install --upgrade pip```. It is recommended to upgrade pip even after installation. You can check you pip version by ```pip --version```
 3. To install CMake follow the instructions [from CMake website](https://cmake.org/install/)
 4. dlib
