@@ -3,7 +3,7 @@ import time
 
 class FrameCounter:
     def __init__(self):
-        self.frames_to_count = 15
+        self.frames_to_count = 20
         self.frames_read_counter = 0
         self.FPS = 0
         self.start_time = time.time()
@@ -12,7 +12,7 @@ class FrameCounter:
     def frame_read(self):
         self.frames_read_counter += 1
 
-    def reset_frame_readed(self):
+    def reset_frame_read(self):
         self.frames_read_counter = 0
 
     def calculate_FPS(self):
@@ -25,11 +25,12 @@ class FrameCounter:
             # calculate FPS
             self.FPS = self.frames_read_counter / seconds
 
-            # set counter to 0, to count frames from beginign
+            # set counter to 0, to count frames from beginning
             self.frames_read_counter = 0
 
             # set new start time
             self.start_time = time.time()
 
     def get_FPS(self):
+        # return number of FPS in video stream
         return float("{:.2f}".format(self.FPS))

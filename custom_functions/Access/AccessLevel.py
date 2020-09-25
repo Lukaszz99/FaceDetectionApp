@@ -5,12 +5,21 @@ from .Locations import Locations
 
 class AccessLevel:
     def __init__(self):
+        # in final version of project
+        # workers and locations
+        # should be loaded from database
+        # or other secured place
         self.workers = Workers().get_workers()
         self.locations = Locations().get_locations()
-        self.names = []
+
         # set all accesses to False by default
         self.access = {key: [False for _ in range(len(self.workers))] for key in self.locations}
+
+        # Pandas DataFrame to kep access in location per person
         self.access_frame = pd.DataFrame(self.access, index=self.workers)
+
+        # list of names used in get_access functions
+        self.names = []
 
     def add_access_everywhere_by_name(self, name):
         self.access_frame.at[name, self.locations] = True
@@ -26,6 +35,8 @@ class AccessLevel:
 
     def get_access(self, names, location):
         self.names = names
+
+        # if list of names is empty access is not grant
         if not self.names:
             return False
         else:
@@ -34,13 +45,14 @@ class AccessLevel:
                       .format(location, self.locations))
                 return False
             else:
-                if 'Unknown' in self.names:
-                    self.names.remove('Unknown')
-                access = [(name, self.access_frame.loc[name][location]) for name in self.names]
+                # return list of tuples (name, True/False)
+                # where bool value mean access granted or not
+                access = [(name, self.access_frame.loc[name][location]) for name in self.names if name != 'Unknown']
                 return list(access)
 
     def who_on_video(self, video_stream):
-        # return camera name, unique id of cam object, location of camera, number of persons on frame and their names
+        # return camera name, unique id of cam object,
+        # location of camera, number of persons on frame and their names
         return video_stream.name, id(video_stream), video_stream.location, len(self.names), self.names
 
     def set_custom_accesses(self):

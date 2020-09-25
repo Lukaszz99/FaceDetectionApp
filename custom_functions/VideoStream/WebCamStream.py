@@ -5,6 +5,8 @@ from threading import Thread
 class WebCamStream:
     def __init__(self, src=0, name="WebCamStream", location=None):
         # 0 is for default hardware cam
+        # src could be also a IP of camera
+        # for more check OpenCV VideoCapture manual
         self.stream = cv.VideoCapture(src, cv.CAP_DSHOW)
         self.status, self.frame = self.stream.read()
         self.location = location

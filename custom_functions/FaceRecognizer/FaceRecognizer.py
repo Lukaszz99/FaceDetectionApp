@@ -26,7 +26,7 @@ class FaceRecognizer:
         # smaller frame lower accuracy of recognition,
         # but increase FPS
         # SCALE MUST BE ONE OF: 0.5, 1.0
-        # for scale smaller than 0.5 you need to have 4k camera (or more)
+        # could be 0.25, but then you must have high resolution camera
         self.scale = scale
 
         # classes used inside recognize function
@@ -47,20 +47,30 @@ class FaceRecognizer:
             names, frame, ROI = self._recognize()
 
             # check access of person in given location
-            access = self.access_level.get_access(
+            # for drawing rectangles on faces
+            access_for_person = self.access_level.get_access(
                 names=names.copy(), location=self.related_video_stream.location)
 
             # draw rectangle over the face on frame depends on access
-            self._draw_rectangles(frame, ROI, names.copy(), access)
+            self._draw_rectangles(frame, ROI, names.copy(), access_for_person)
 
             # put FPS on frame
             cv.putText(frame, 'FPS:' + str(self.frame_counter.get_FPS()),
                        (1, 18), cv.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 0))
+
             # show frame on screen
             cv.imshow(self.related_video_stream.name, frame)
 
-            self.access_after_time.get_persons_from_frame(names.copy(), access, frame)
+            # here access is checking in proper way
+            # every person seen on video is log with log system
+            self.access_after_time.get_persons_from_frame(names.copy(), access_for_person, frame,
+                                                          self.related_video_stream)
             self.access_after_time.log_access(self.related_video_stream)
+
+            # check for access in location
+            # of related camera
+            access_in_location = self.access_after_time.access_in_location()
+            print(access_in_location)
 
             # press 'q' to close program
             self._check_for_program_close()
@@ -123,6 +133,7 @@ class FaceRecognizer:
     def _draw_rectangles(self, frame, ROI, names, access):
         try:
             for ((top, right, bottom, left), name) in zip(ROI, names):
+
                 # resize frame to show normal size
                 rescale = int(1 / self.scale)
                 top *= rescale
@@ -143,6 +154,7 @@ class FaceRecognizer:
         except NameError:
             print('Error in _draw_rectangles')
 
+    # this function wait for 'q' pressed and closing program
     def _check_for_program_close(self):
         key = cv.waitKey(1)
         if key == ord('q'):
