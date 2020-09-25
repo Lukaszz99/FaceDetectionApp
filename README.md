@@ -21,11 +21,15 @@ After installation you can check you Python version, by typing ```python --versi
 2. Next, install pip. Type ```curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py``` in command line. If you have pip already installed, upgrade it by typing ```python -m pip install --upgrade pip```. It is recommended to upgrade pip even after installation. You can check you pip version by ```pip --version```
 3. To install CMake follow the instructions [from CMake website](https://cmake.org/install/)
 4. Install Dlib. Type `pip install dlib` in command line
-5. Install OpenCV. Type `pip install opencv-python`.\
+5. Install OpenCV. Type `pip install opencv-python`. in command line
 Type `python` in command line to open Python enviroment. Then `import cv2` to check installation success. Nothing should show up if properly installed. Type `exit()` to exit from Python environment.
 6. Install pandas. Type `pip install pandas`.\
 As above, open Python and `import pandas` for checking installation success.
-7. Install face_recognition library. Type `pip install face-recognition` in command line.\ \ \
+7. Install face_recognition library. Type `pip install face-recognition` in command line.
 
 
-alan
+After installation you can downoland source code of the project. In command line go to place, where you want to downoland code and type `git clone https://gitlab.com/Lukaszz99/facerecognition.git`.\
+When cloning is finished go to `facerecognition` folder.\
+Now you can run face recognition application. Type `python main.py -e encodings/example_set.pickle -d cnn`.\
+After few seconds you should see video from your compuer's camera.\
+Instructions how to make your own .pickle file (this file contains coded faces for recognition) are in face_encode.py
