@@ -1,5 +1,5 @@
 # Face Recognition App
-This app is based on face_recognition library write by Adam Geitgey [GitHub repo](https://github.com/ageitgey/face_recognition). It makes face recognition process incredibly easy.
+This app is based on face_recognition library write by Adam Geitgey -  [GitHub repo](https://github.com/ageitgey/face_recognition). It makes face recognition process incredibly easy.
 
 ## Installation
 The final version of the application is in progress, so there is no installation file yet. Instead, you can download the source and run the application from the command line. 
@@ -16,3 +16,4 @@ Additional libraries:
 ### Step by step installation
 #### Installation for Linux, MacOS and Windows
 1. Install Python by following the [instructions](https://www.python.org/downloads/)
+After installation you can check you Python version, by typing `python --version` in command line
