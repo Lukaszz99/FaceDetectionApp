@@ -56,7 +56,7 @@ This code use additional libraries
      pip install pandas
      ```
 
-    After installation open Python environment and check installation success. This time to import Pandas type `import pandas`.
+    After installation open Python environment and check installation success. This time to import Pandas type `import pandas` in opened Python environment.
 
 5. Finally let's install face_recognition library.
 
@@ -109,3 +109,41 @@ Instructions how to make your own .pickle file (this file contains coded faces f
 Code documentation is available in this link.
 
 ## Usage
+
+### Create .pickle file
+
+Inside encodings file you can find ABC.pickle file. This file contains coded faces use for face recognition. You can make own .pickle file with faces of persons you want to recognize with program. Pickle file on github contains only author and author's brothers faces. Creating own recognition set step by step:
+
+1. Create head folder. Inside this folder make create folders with persons' you want to recognize names
+2. Inside named folder put images with person's face. There need to be only one face on one photo. Face shouldn't be covered with hairs or hat.
+
+3. Now you can run script to make your encoding file. In command line type
+
+    ```scripshell
+    python face_encode.py -i set_name -e pickle_file_name.pickle -d detect_method
+    ```
+
+    - `set_name` is path to head folder.
+    - `pickle_file_name.pickle` is name of exit .pickle file with encoded faces.
+    - `detect_method` choose `hog` or `cnn` is coding method. CNN tends to be more accurate, but takes longer to encode faces. You can rewrite code to use CUDA cores to accelerate this process.
+
+    HoG - Histogram of oriented gradients. You can find more about this algorithm and face encodings in face_recognition lib author - Adam Geitgey [here](https://medium.com/@ageitgey/machine-learning-is-fun-part-4-modern-face-recognition-with-deep-learning-c3cffc121d78)\
+    CNN - Convolutional neural network using ResNet wrote by Davis King in dlib library.
+
+### Running program
+
+To run program type in command line
+
+```shellscript
+python main.py -e your_encodings.pickle -d detect_method
+```
+
+By default program will try to use your build-in camera. You can change video source to any IP camera inside main.py file. By more instruction go to main.py comments or [OpenCV documentation](https://docs.opencv.org/4.4.0/d8/dfe/classcv_1_1VideoCapture.html#ac4107fb146a762454a8a87715d9b7c96)
+
+## Having problems?
+
+If you have any problem or question please write it in an [issue page](https://gitlab.com/Lukaszz99/facerecognition/-/issues)
+
+## Documentation
+
+If you want to know more about code itself, visit [wiki](https://gitlab.com/Lukaszz99/facerecognition/-/wikis/home)
