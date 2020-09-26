@@ -1,6 +1,8 @@
 # Face Recognition App
 
-This app is based on face_recognition library write by Adam Geitgey -  [GitHub repo](https://github.com/ageitgey/face_recognition). It makes face recognition process incredibly easy.
+This app is a result of summer practice in Joint Institute for Nuclear Research in Dubna. The main core of the application is the video recognition system based on face_recognition library write by Adam Geitgey -  [GitHub repo](https://github.com/ageitgey/face_recognition). It makes face recognition process incredibly easy and efficient in live-time.
+
+ Running this app from one executable file is still unable due to early version, so if you want to run it you have to download source code and all libraries used in code. Installation instruction is below.
 
 ## Installation
 
