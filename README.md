@@ -2,7 +2,7 @@
 
 This app is a result of summer practice in Joint Institute for Nuclear Research in Dubna. The main core of the application is the video recognition system based on face_recognition library write by Adam Geitgey -  [GitHub repo](https://github.com/ageitgey/face_recognition). It makes face recognition process incredibly easy and efficient in live-time.
 
- Running this app from one executable file is still unable due to early version, so if you want to run it you have to download source code and all libraries used in code. Installation instruction is below.
+Running this app from one executable file is still unable due to early version, so if you want to run it you have to download source code and all libraries used in code. Installation instruction is below.
 
 ## Installation
 
@@ -113,7 +113,23 @@ git clone https://gitlab.com/Lukaszz99/facerecognition.git
 Inside encodings file you can find ABC.pickle file. This file contains coded faces use for face recognition. You can make own .pickle file with faces of persons you want to recognize with program. Pickle file on github contains only author and author's brothers faces. Creating own recognition set step by step:
 
 1. Create head folder. Inside this folder make create folders with persons' you want to recognize names
-2. Inside named folder put images with person's face. There need to be only one face on one photo. Face shouldn't be covered with hairs or hat.
+2. Inside named folder put images with person's face. There need to be only one face on one photo. Face shouldn't be covered with hairs or hat. Folder's structure should looks like this
+
+    ```shellscript
+    head_folder
+    |
+    └─── John_Smith
+    │   │   image01.jpg
+    │   │   image02.jpg
+    │ 
+    └─── James_Johnson
+    |   │   image01.jpg
+    |   │   image02.jpg
+    |
+    |...
+    ```
+
+    Supported image extension: `.jpg, .jpeg, .png, .bmp, .tif, .tiff`
 
 3. Now you can run script to make your encoding file. In command line type
 
