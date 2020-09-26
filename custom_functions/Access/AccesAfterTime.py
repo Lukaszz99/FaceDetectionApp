@@ -10,14 +10,14 @@ from custom_functions.LogSystem.LogAccessesTXT import LogAccessesTXT
 
 
 class AccessAfterTime:
-    def __init__(self):
+    def __init__(self, min_time=2.5):
         # variables for measuring time
         self.start_time = time.time()
         self.end_time = 0
 
         # time in sec after
         # which access is checked
-        self.min_sec = 2.5
+        self.min_sec = min_time
 
         # variable to calculate person ratio
         # on frames in min_time

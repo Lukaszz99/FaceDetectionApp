@@ -13,9 +13,10 @@ from custom_functions.Access import AccesAfterTime
 
 
 class FaceRecognizer:
-    def __init__(self, name, encodings=None, related_video_stream=None, detect_method='cnn', scale=0.5):
+    def __init__(self, name, min_time, encodings=None, related_video_stream=None, detect_method='cnn', scale=0.5):
         self.name = name
         self.encodings = encodings
+        self.min_time = min_time
         self.related_video_stream = related_video_stream
         self.detect_method = detect_method
         self.stopped = False
@@ -33,7 +34,14 @@ class FaceRecognizer:
         self.access_level = AccessLevel.AccessLevel()
         self.access_level.set_custom_accesses()
         self.frame_counter = FrameCounter.FrameCounter()
-        self.access_after_time = AccesAfterTime.AccessAfterTime()
+        self.access_after_time = AccesAfterTime.AccessAfterTime(min_time=min_time)
+
+        # access in location of camera
+        self.location_access = False
+
+    def is_access_granted(self):
+        # returns True if access is granted in camera location
+        return self.location_access
 
     def start(self):
         # 2 sec for hardware to prepare cameras
@@ -48,11 +56,14 @@ class FaceRecognizer:
 
             # check access of person in given location
             # for drawing rectangles on faces
-            access_for_person = self.access_level.get_access(
+            # this variable CAN NOT be used for
+            # final access checking
+            # for this purpose check access_in_location variable
+            _access_for_person = self.access_level.get_access(
                 names=names.copy(), location=self.related_video_stream.location)
 
             # draw rectangle over the face on frame depends on access
-            self._draw_rectangles(frame, ROI, names.copy(), access_for_person)
+            self._draw_rectangles(frame, ROI, names.copy(), _access_for_person)
 
             # put FPS on frame
             cv.putText(frame, 'FPS:' + str(self.frame_counter.get_FPS()),
@@ -63,14 +74,18 @@ class FaceRecognizer:
 
             # here access is checking in proper way
             # every person seen on video is log with log system
-            self.access_after_time.get_persons_from_frame(names.copy(), access_for_person, frame,
+            self.access_after_time.get_persons_from_frame(names.copy(), _access_for_person, frame,
                                                           self.related_video_stream)
             self.access_after_time.log_access(self.related_video_stream)
 
             # check for access in location
             # of related camera
-            access_in_location = self.access_after_time.access_in_location()
-            print(access_in_location)
+            # if this variable is True it is mean
+            # this person has access
+            # access is given when person has access
+            # for minimum min_time (can change this time in AccesAfterTime class)
+            # acces is changing to False after one second after being granted
+            self.location_access = self.access_after_time.access_in_location()
 
             # press 'q' to close program
             self._check_for_program_close()
