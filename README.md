@@ -105,3 +105,5 @@ When cloning is finished go to `facerecognition` folder.\
 Now you can run face recognition application. Type `python main.py -e encodings/example_set.pickle -d cnn`.\
 After few seconds you should see video from your computer's camera.\
 Instructions how to make your own .pickle file (this file contains coded faces for recognition) are in face_encode.py
+
+Code documentation is available in this link.
