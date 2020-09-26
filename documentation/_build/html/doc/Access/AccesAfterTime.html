@@ -1,0 +1,313 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>AccesAfterTime module &mdash; Face Recognition App 1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="AccessLevel module" href="AccessLevel.html" />
+    <link rel="prev" title="Access" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> Face Recognition App
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../modules.html">Face Recognition App</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../main.html">App run module</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="modules.html">Access</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">AccesAfterTime module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="AccessLevel.html">AccessLevel module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Locations.html">Locations module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Workers.html">Workers module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../VideoStream/modules.html">VideoStream</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Drawing/modules.html">Drawing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FaceRecognizer/modules.html">FaceRecognizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../LogSystem/modules.html">LogSystem</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Face Recognition App</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../modules.html">Face Recognition App</a> &raquo;</li>
+        
+          <li><a href="modules.html">Access</a> &raquo;</li>
+        
+      <li>AccesAfterTime module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/doc/Access/AccesAfterTime.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-AccesAfterTime">
+<span id="accesaftertime-module"></span><h1>AccesAfterTime module<a class="headerlink" href="#module-AccesAfterTime" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="AccesAfterTime.AccessAfterTime">
+<em class="property">class </em><code class="sig-prename descclassname">AccesAfterTime.</code><code class="sig-name descname">AccessAfterTime</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">min_time</span><span class="o">=</span><span class="default_value">2.5</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/AccesAfterTime.html#AccessAfterTime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AccesAfterTime.AccessAfterTime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<div class="line-block">
+<div class="line">This class provide access while person is recognized for X seconds</div>
+<div class="line">If access is granted, it is log into log file</div>
+<div class="line">If access is not granted or person is Unknown, screenshot is taken and this situation is also logged</div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>min_time</strong> (<em>float</em>) – minimum amount of time a person must be recognized to gain access.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="AccesAfterTime.AccessAfterTime.access_after_time">
+<code class="sig-name descname">access_after_time</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/AccesAfterTime.html#AccessAfterTime.access_after_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AccesAfterTime.AccessAfterTime.access_after_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate person ratio in last min_time period. Ratio =
+score from get_persons_from_frame / frames read in min_time period.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>with access and without access.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>2 list of persons</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="AccesAfterTime.AccessAfterTime.access_in_location">
+<code class="sig-name descname">access_in_location</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/AccesAfterTime.html#AccessAfterTime.access_in_location"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AccesAfterTime.AccessAfterTime.access_in_location" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>True if access is grant in given location</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="AccesAfterTime.AccessAfterTime.check_time">
+<code class="sig-name descname">check_time</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/AccesAfterTime.html#AccessAfterTime.check_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AccesAfterTime.AccessAfterTime.check_time" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>True if min_time passed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="AccesAfterTime.AccessAfterTime.get_persons_from_frame">
+<code class="sig-name descname">get_persons_from_frame</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">names</span></em>, <em class="sig-param"><span class="n">access</span></em>, <em class="sig-param"><span class="n">frame</span></em>, <em class="sig-param"><span class="n">video_stream</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/AccesAfterTime.html#AccessAfterTime.get_persons_from_frame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AccesAfterTime.AccessAfterTime.get_persons_from_frame" title="Permalink to this definition">¶</a></dt>
+<dd><p>If person is recognized on frame add this name to dict, where all names are kept. If person has
+access add +1 in this name. If person don’t have access add -1 in this name. Names with negative value
+of person_ratio (access_after_time method) are recognized as persons without access.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>names</strong> (<em>list</em>) – list of names people on frame. Can contain ‘Unknown’ if person is not in known persons .pickle file.</p></li>
+<li><p><strong>access</strong> (<em>list</em>) – list of tuples (Name, Access(True/False)). Used to measure person_ratio.</p></li>
+<li><p><strong>frame</strong> (<em>numpy.ndarray</em>) – last frame with unknown or person with no access.</p></li>
+<li><p><strong>video_stream</strong> (<a class="reference internal" href="../VideoStream/WebCamStream.html#WebCamStream.WebCamStream" title="WebCamStream.WebCamStream"><em>WebCamStream</em></a>) – source of video.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="AccesAfterTime.AccessAfterTime.log_access">
+<code class="sig-name descname">log_access</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">video_stream</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/AccesAfterTime.html#AccessAfterTime.log_access"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#AccesAfterTime.AccessAfterTime.log_access" title="Permalink to this definition">¶</a></dt>
+<dd><p>If min_time passed, save into log.txt file who get access or not. Also save from video stream
+for person without access or unknown person. If someone get access location_access variable.
+is set to True. After 1sec is set to False.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>video_stream</strong> (<a class="reference internal" href="../VideoStream/WebCamStream.html#WebCamStream.WebCamStream" title="WebCamStream.WebCamStream"><em>WebCamStream</em></a>) – source of video.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="AccessLevel.html" class="btn btn-neutral float-right" title="AccessLevel module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="modules.html" class="btn btn-neutral float-left" title="Access" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Łukasz Sawicki
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

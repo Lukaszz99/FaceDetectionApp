@@ -1,0 +1,378 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>FaceRecognizer &mdash; Face Recognition App 1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> Face Recognition App
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">Face Recognition App</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Face Recognition App</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Module code</a> &raquo;</li>
+        
+      <li>FaceRecognizer</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for FaceRecognizer</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Author: Łukasz Sawicki</span>
+<span class="sd">Mail: l.saw99@outlook.com</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">cv2</span> <span class="k">as</span> <span class="nn">cv</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">threading</span> <span class="kn">import</span> <span class="n">Thread</span>
+<span class="kn">import</span> <span class="nn">face_recognition</span>
+<span class="kn">from</span> <span class="nn">custom_functions.Drawing</span> <span class="kn">import</span> <span class="n">drawing</span>
+<span class="kn">from</span> <span class="nn">custom_functions.Access</span> <span class="kn">import</span> <span class="n">AccessLevel</span>
+<span class="kn">from</span> <span class="nn">custom_functions.VideoStream</span> <span class="kn">import</span> <span class="n">FrameCounter</span>
+<span class="kn">from</span> <span class="nn">custom_functions.Access</span> <span class="kn">import</span> <span class="n">AccesAfterTime</span>
+
+
+<div class="viewcode-block" id="FaceRecognizer"><a class="viewcode-back" href="../doc/FaceRecognizer/FaceRecognizer.html#FaceRecognizer.FaceRecognizer">[docs]</a><span class="k">class</span> <span class="nc">FaceRecognizer</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">min_time</span><span class="p">,</span> <span class="n">encodings</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">related_video_stream</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">detect_method</span><span class="o">=</span><span class="s1">&#39;cnn&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">encodings</span> <span class="o">=</span> <span class="n">encodings</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">min_time</span> <span class="o">=</span> <span class="n">min_time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">related_video_stream</span> <span class="o">=</span> <span class="n">related_video_stream</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">detect_method</span> <span class="o">=</span> <span class="n">detect_method</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stopped</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># Smaller frame to recognize faces faster.</span>
+        <span class="c1"># While working on GPU or on good performance CPU</span>
+        <span class="c1"># don&#39;t need to make frame smaller (then set scale to 1.0)</span>
+        <span class="c1"># smaller frame lower accuracy of recognition,</span>
+        <span class="c1"># but increase FPS</span>
+        <span class="c1"># SCALE MUST BE ONE OF: 0.5, 1.0</span>
+        <span class="c1"># could be 0.25, but then you must have high resolution camera</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">scale</span>
+
+        <span class="c1"># classes used inside recognize function</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">access_level</span> <span class="o">=</span> <span class="n">AccessLevel</span><span class="o">.</span><span class="n">AccessLevel</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">access_level</span><span class="o">.</span><span class="n">set_custom_accesses</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frame_counter</span> <span class="o">=</span> <span class="n">FrameCounter</span><span class="o">.</span><span class="n">FrameCounter</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">access_after_time</span> <span class="o">=</span> <span class="n">AccesAfterTime</span><span class="o">.</span><span class="n">AccessAfterTime</span><span class="p">(</span><span class="n">min_time</span><span class="o">=</span><span class="n">min_time</span><span class="p">)</span>
+
+        <span class="c1"># access in location of camera</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">location_access</span> <span class="o">=</span> <span class="kc">False</span>
+
+<div class="viewcode-block" id="FaceRecognizer.is_access_granted"><a class="viewcode-back" href="../doc/FaceRecognizer/FaceRecognizer.html#FaceRecognizer.FaceRecognizer.is_access_granted">[docs]</a>    <span class="k">def</span> <span class="nf">is_access_granted</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># returns True if access is granted in camera location</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">location_access</span></div>
+
+<div class="viewcode-block" id="FaceRecognizer.start"><a class="viewcode-back" href="../doc/FaceRecognizer/FaceRecognizer.html#FaceRecognizer.FaceRecognizer.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># 2 sec for hardware to prepare cameras</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+        <span class="n">thread</span> <span class="o">=</span> <span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_display_result</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">())</span>
+        <span class="n">thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+    <span class="k">def</span> <span class="nf">_display_result</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">names</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ROI</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recognize</span><span class="p">()</span>
+
+            <span class="c1"># check access of person in given location</span>
+            <span class="c1"># for drawing rectangles on faces</span>
+            <span class="c1"># this variable CAN NOT be used for</span>
+            <span class="c1"># final access checking</span>
+            <span class="c1"># for this purpose check access_in_location variable</span>
+            <span class="n">_access_for_person</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">access_level</span><span class="o">.</span><span class="n">get_access</span><span class="p">(</span>
+                <span class="n">names</span><span class="o">=</span><span class="n">names</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">location</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">related_video_stream</span><span class="o">.</span><span class="n">location</span><span class="p">)</span>
+
+            <span class="c1"># draw rectangle over the face on frame depends on access</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_draw_rectangles</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">ROI</span><span class="p">,</span> <span class="n">names</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">_access_for_person</span><span class="p">)</span>
+
+            <span class="c1"># put FPS on frame</span>
+            <span class="n">cv</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="s1">&#39;FPS:&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame_counter</span><span class="o">.</span><span class="n">get_FPS</span><span class="p">()),</span>
+                       <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">18</span><span class="p">),</span> <span class="n">cv</span><span class="o">.</span><span class="n">FONT_HERSHEY_SIMPLEX</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+
+            <span class="c1"># show frame on screen</span>
+            <span class="n">cv</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">related_video_stream</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">frame</span><span class="p">)</span>
+
+            <span class="c1"># here access is checking in proper way</span>
+            <span class="c1"># every person seen on video is log with log system</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">access_after_time</span><span class="o">.</span><span class="n">get_persons_from_frame</span><span class="p">(</span><span class="n">names</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">_access_for_person</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span>
+                                                          <span class="bp">self</span><span class="o">.</span><span class="n">related_video_stream</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">access_after_time</span><span class="o">.</span><span class="n">log_access</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">related_video_stream</span><span class="p">)</span>
+
+            <span class="c1"># check for access in location</span>
+            <span class="c1"># of related camera</span>
+            <span class="c1"># if this variable is True it is mean</span>
+            <span class="c1"># this person has access</span>
+            <span class="c1"># access is given when person has access</span>
+            <span class="c1"># for minimum min_time (can change this time in AccesAfterTime class)</span>
+            <span class="c1"># acces is changing to False after one second after being granted</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">location_access</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">access_after_time</span><span class="o">.</span><span class="n">access_in_location</span><span class="p">()</span>
+
+            <span class="c1"># functions for calculating FPS in video stream</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">frame_counter</span><span class="o">.</span><span class="n">frame_read</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">frame_counter</span><span class="o">.</span><span class="n">calculate_FPS</span><span class="p">()</span>
+
+            <span class="c1"># press &#39;q&#39; to close program</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_check_for_program_close</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_recognize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stopped</span><span class="p">:</span>
+                <span class="k">return</span>
+
+            <span class="c1"># read next frame from vide stream if program is not stopped</span>
+            <span class="n">frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">related_video_stream</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+            <span class="n">small_frame</span> <span class="o">=</span> <span class="n">cv</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">fx</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="n">fy</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">)</span>
+
+            <span class="c1"># BGR to RGB, because of face_recognition library</span>
+            <span class="n">rgb_small_frame</span> <span class="o">=</span> <span class="n">cv</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">small_frame</span><span class="p">,</span> <span class="n">cv</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
+
+            <span class="c1"># detect face ROI on frame</span>
+            <span class="n">ROI</span> <span class="o">=</span> <span class="n">face_recognition</span><span class="o">.</span><span class="n">face_locations</span><span class="p">(</span><span class="n">rgb_small_frame</span><span class="p">,</span>
+                                                  <span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detect_method</span><span class="p">)</span>
+
+            <span class="c1"># make 128-dimensional vector from every face detected on frame</span>
+            <span class="c1"># to compare with known faces</span>
+            <span class="n">encodings</span> <span class="o">=</span> <span class="n">face_recognition</span><span class="o">.</span><span class="n">face_encodings</span><span class="p">(</span><span class="n">rgb_small_frame</span><span class="p">,</span> <span class="n">ROI</span><span class="p">)</span>
+
+            <span class="c1"># list for keeping recognized names</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="c1"># iterate over all encoded faces in frame and find persons&#39;s name of recognized faces</span>
+            <span class="k">for</span> <span class="n">encoding</span> <span class="ow">in</span> <span class="n">encodings</span><span class="p">:</span>
+                <span class="n">matches</span> <span class="o">=</span> <span class="n">face_recognition</span><span class="o">.</span><span class="n">compare_faces</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">encodings</span><span class="p">[</span><span class="s1">&#39;encodings&#39;</span><span class="p">],</span> <span class="n">encoding</span><span class="p">)</span>
+
+                <span class="c1"># deafault if no face is recognized</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Unknown&#39;</span>
+
+                <span class="k">if</span> <span class="kc">True</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">:</span>
+                    <span class="n">matchesIdxs</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">matches</span><span class="p">)</span> <span class="k">if</span> <span class="n">b</span><span class="p">]</span>
+                    <span class="n">counts</span> <span class="o">=</span> <span class="p">{}</span>
+
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">matchesIdxs</span><span class="p">:</span>
+                        <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encodings</span><span class="p">[</span><span class="s1">&#39;names&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+                        <span class="n">counts</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+
+                    <span class="c1"># name is choose by voting</span>
+                    <span class="n">name</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">counts</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">counts</span><span class="o">.</span><span class="n">get</span><span class="p">)</span>
+
+                <span class="n">names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+            <span class="c1"># return recognized names, frame on which it was detected and face locations - ROI</span>
+            <span class="k">return</span> <span class="n">names</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ROI</span>
+
+        <span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error in FaceRecognizer start method&#39;</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">_draw_rectangles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">ROI</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">access</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">for</span> <span class="p">((</span><span class="n">top</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">bottom</span><span class="p">,</span> <span class="n">left</span><span class="p">),</span> <span class="n">name</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ROI</span><span class="p">,</span> <span class="n">names</span><span class="p">):</span>
+
+                <span class="c1"># resize frame to show normal size</span>
+                <span class="n">rescale</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">)</span>
+                <span class="n">top</span> <span class="o">*=</span> <span class="n">rescale</span>
+                <span class="n">right</span> <span class="o">*=</span> <span class="n">rescale</span>
+                <span class="n">bottom</span> <span class="o">*=</span> <span class="n">rescale</span>
+                <span class="n">left</span> <span class="o">*=</span> <span class="n">rescale</span>
+                <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;Unknown&quot;</span><span class="p">:</span>
+                    <span class="n">drawing</span><span class="o">.</span><span class="n">rectagne_unknow</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">top</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">bottom</span><span class="p">,</span> <span class="n">left</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">access</span><span class="p">)):</span>
+                        <span class="c1"># [0] is to get first element from one-element list</span>
+                        <span class="n">name_idx</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">access</span><span class="p">)</span> <span class="k">if</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">name</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="n">access</span><span class="p">[</span><span class="n">name_idx</span><span class="p">][</span><span class="mi">1</span><span class="p">]:</span>
+                            <span class="n">drawing</span><span class="o">.</span><span class="n">rectangle_with_access</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">top</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">bottom</span><span class="p">,</span> <span class="n">left</span><span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">drawing</span><span class="o">.</span><span class="n">rectangle_withOUT_access</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">top</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">bottom</span><span class="p">,</span> <span class="n">left</span><span class="p">)</span>
+
+        <span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error in _draw_rectangles&#39;</span><span class="p">)</span>
+
+    <span class="c1"># this function wait for &#39;q&#39; pressed and closing program</span>
+    <span class="k">def</span> <span class="nf">_check_for_program_close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">cv</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;q&#39;</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Closing program&#39;</span><span class="p">)</span>
+            <span class="n">cv</span><span class="o">.</span><span class="n">destroyAllWindows</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stopped</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">related_video_stream</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+            <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Łukasz Sawicki
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
