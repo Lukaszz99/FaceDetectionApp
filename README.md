@@ -100,11 +100,11 @@ Follow the instructions from the previous chapter from 1st to 4th point. Remembe
     pip install face_recognition
     ```
 
-After installation you can download source code of the project. In command line go to place, where you want to download code and type `git clone https://gitlab.com/Lukaszz99/facerecognition.git`.\
-When cloning is finished go to `facerecognition` folder.\
-Now you can run face recognition application. Type `python main.py -e encodings/example_set.pickle -d cnn`.\
-After few seconds you should see video from your computer's camera.\
-Instructions how to make your own .pickle file (this file contains coded faces for recognition) are in face_encode.py
+After installation you can download source code of the project. In command line go to place, where you want to download code and type 
+
+```shellscript
+git clone https://gitlab.com/Lukaszz99/facerecognition.git
+```
 
 ## Usage
 
