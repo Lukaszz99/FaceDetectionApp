@@ -156,7 +156,7 @@ By default program will try to use your build-in camera. You can change video so
 
 ## Having problems?
 
-If you have any problem or question please write it in an [issue page](https://gitlab.com/Lukaszz99/facerecognition/-/issues)
+If you have any problem or question please write it in an [issue page](https://gitlab.com/Lukaszz99/facerecognition/-/issues) or contact me directly l.saw99@outlook.com
 
 ## Documentation
 

@@ -87,6 +87,10 @@ class FaceRecognizer:
             # acces is changing to False after one second after being granted
             self.location_access = self.access_after_time.access_in_location()
 
+            # functions for calculating FPS in video stream
+            self.frame_counter.frame_read()
+            self.frame_counter.calculate_FPS()
+
             # press 'q' to close program
             self._check_for_program_close()
 
@@ -97,10 +101,6 @@ class FaceRecognizer:
 
             # read next frame from vide stream if program is not stopped
             frame = self.related_video_stream.read()
-
-            # functions for calculating FPS in video stream
-            self.frame_counter.frame_read()
-            self.frame_counter.calculate_FPS()
 
             small_frame = cv.resize(frame, (0, 0), fx=self.scale, fy=self.scale)
 
