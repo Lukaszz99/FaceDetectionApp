@@ -17,3 +17,4 @@
 2020-09-27_11_14_25: WebCam1 in Lab1, 1 person without access! ['Sebastian']
 2020-09-27_11_14_27: WebCam1 in Lab1, 1 person without access! ['Sebastian']
 2020-09-27_11_14_30: WebCam1 in Lab1, 1 person without access! ['Sebastian']
+2020-09-27_12_03_43: WebCam1 in Lab1, 1 person with access granted! ['Lukasz']
