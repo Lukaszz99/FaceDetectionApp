@@ -113,7 +113,7 @@ git clone https://gitlab.com/Lukaszz99/facerecognition.git
 Inside encodings file you can find ABC.pickle file. This file contains coded faces use for face recognition. You can make own .pickle file with faces of persons you want to recognize with program. Pickle file on github contains only author and author's brothers faces. Creating own recognition set step by step:
 
 1. Create head folder. Inside this folder make create folders with persons' you want to recognize names
-2. Inside named folder put images with person's face. There need to be only one face on one photo. Face shouldn't be covered with hairs or hat. Folder's structure should looks like this
+2. Inside named folder put images with person's face. There need to be only one face on one photo. Face shouldn't be covered with hairs or hat. For the best accuracy, you should have about 20-25 images of each person. Folder's structure should looks like this
 
     ```shellscript
     head_folder
